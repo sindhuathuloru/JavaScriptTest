@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+  
+
+<script>
+var positive_elements = [];
+var negative_elements = [];
+function validateForm() {
+	
+	var term_error=false;
+	 var type_error=false;
+	 var
+	 //document.getElementById("positive_box").value=" ";
+	 //document.getElementById("negative_box").value=" ";
+	 pBox = document.getElementById('positive_box');
+	 nBox = document.getElementById('negative_box');
+	 var term = document.getElementById('term').value;
+	 
+	 if (term.length > 50) {
+	        document.getElementById('term_error').innerHTML="Max length should not exceed 50";
+	        term_error=true;
+	     }
+	 
+	 else if(term == null || term==""){
+		 document.getElementById('term_error').innerHTML="Please fill term field";
+		 term_error=true;
+	 }
+	 
+	 var type = document.getElementById('type').value;
+	 
+	 if(type == "Choose a Type"){
+	  document.getElementById('type_error').innerHTML="Please select either positive or negative";
+	  type_error=true;
+	 }
+	 
+	 if(term_error == false && type_error == false){
+	    if(type == "Positive"){	 
+	        var i;
+		    for(i=0;i<positive_elements.length;i++){
+			 document.getElementById('positive_box').deleteRow(0);
+			}	
+	 // document.getElementById('positive_box').value="";
+	  positive_elements.push(term);
+	  positive_elements.sort();
+	  
+	  
+	  var k;
+	 
+	  for(k=0;k < positive_elements.length;k++){
+	  var row = pBox.insertRow(k);
+	  //var txt  = document.createTextNode(positive_elements[i]+"\n");
+	  //pBox.appendChild(txt);
+	  row.innerHTML = "<div style='background-color:#00FF00'><span style='color:#FFFFFF' onclick='positiveUpdate("+k+");'>"+positive_elements[k]+"</span>&nbsp<span style='color:#FFFFFF' onclick='positiveRemove("+k+");'>&#10006;</span></div>";
+	  }
+	  }
+	else if(type == "Negative"){
+		var l;
+		for(l=0;l < negative_elements.length;l++)
+			document.getElementById('negative_box').deleteRow(0);	
+		negative_elements.push(term);
+		negative_elements.sort();
+		var j;
+	
+		for(j=0;j < negative_elements.length;j++){
+			 var row = nBox.insertRow(j);
+		    //var txt  = document.createTextNode(negative_elements[j]+"\n");	
+			//nBox.appendChild(txt);
+			 row.innerHTML = "<div style='background-color:#00FF00'><span style='color:#FFFFFF' onclick='negativeUpdate("+j+");'>"+negative_elements[j]+"</span>&nbsp<span style='color:#FFFFFF' onclick='negativeRemove("+j+");'>&#10006;</span></div>";
+		}
+	}
+	document.getElementById('term').value="";
+	document.getElementById('type').value="Choose a Type";
+	 }
+}
+
+
+function positiveRemove(position){
+	
+	positive_elements.splice(position,1);
+	document.getElementById('positive_box').deleteRow(position);
+	document.getElementById('term').value="";
+	document.getElementById('type').value="Choose a Type";
+}
+
+function negativeRemove(position){
+	negative_elements.splice(position,1);
+	document.getElementById('negative_box').deleteRow(position);
+	document.getElementById('term').value="";
+	document.getElementById('type').value="Choose a Type";
+}
+function positiveUpdate(position){
+    
+	document.getElementById('term').value=positive_elements[position];
+	document.getElementById('type').value="Positive";
+}
+
+function negativeUpdate(position){
+
+	document.getElementById('term').value=negative_elements[position];
+	document.getElementById('type').value="Negative";
+}
+
+
+function error_hide(){
+	
+	document.getElementById('term_error').innerHTML="";
+	document.getElementById('type_error').innerHTML="";
+}
+
+</script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+<div class="panel panel-default">
+ <div class="panel-heading">
+					<h2>Java Script Test</h2></div>
+  <div class="row" style="padding-top: 10px;padding-left:10px;">
+    <div class="col-md-4">
+    
+         <div><label>Term:</label></div>
+         <div><input type="text" class="form-control" id="term" name="term" onclick="error_hide()" required></input></div><br>
+         <p id="term_error"></p>
+         <div><label>Type:</label></div>
+         <div><select class="form-control" id="type" name="type" onclick="error_hide()" required>
+                            <option selected="selected">Choose a Type</option>
+                            <option>Positive</option>
+                            <option>Negative</option>
+                            </select>
+         </div><br>
+         <p id="type_error"></p>
+         <br>
+         <div><button  class="btn btn-primary" onclick="validateForm()" >
+                                    Add Term</button></div>
+                 
+   
+     
+    </div>
+    <div class="col-md-4" >
+    <div><label>Positive:</label></div>
+    <div style="width:250px;height:300px;border:1px solid #000;" id="positive_div">
+      <table id="positive_box"></table>
+    </div>
+    </div>
+    <div class="col-md-4" >
+    <div><label>Negative:</label></div>
+    <div style="width:250px;height:300px;border:1px solid #000;" id="negative_div">
+      <table id="negative_box"></table>
+    </div>
+    
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
+
